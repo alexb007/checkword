@@ -1,7 +1,7 @@
 from .processor import Processor
 
-whitelist = Processor()
-blacklist = Processor()
+__whitelist = Processor()
+__blacklist = Processor()
 
 
 def blacklisted(text, match_case=False, words=True):
@@ -12,7 +12,7 @@ def blacklisted(text, match_case=False, words=True):
     :param words:
     :return:
     """
-    return blacklist.check_text(text, match_case=match_case, words=words)
+    return __blacklist.check_text(text, match_case=match_case, words=words)
 
 
 def whitelisted(text, match_case=False, words=True):
@@ -23,49 +23,50 @@ def whitelisted(text, match_case=False, words=True):
     :param words:
     :return:
     """
-    return whitelist.check_text(text, match_case=match_case, words=words)
+    return __whitelist.check_text(text, match_case=match_case, words=words)
 
 
-def add_words(list_type, words):
+def add_bad_words(words):
     """
-    Add words to list. `list_type` must be one of blacklist and whitelist
-    :param list_type:
+    Add bad words to blacklist.
     :param words:
-    :return:
     """
-    list_obj = blacklist
-    if list_type == 'whitelist':
-        list_obj = whitelist
-    elif list_type != 'blacklist':
-        raise Exception("list_type expected blacklist or whitelist, but {} found".format(list_type))
-    list_obj.update_container(words)
+    __blacklist.update_container(words)
 
 
-def remove_word(list_type, word):
+def add_good_words(words):
+    """
+    Add good words to whitelist.
+    :param words:
+    """
+    __whitelist.update_container(words)
+
+
+def remove_bad_word(word):
+    """
+    Remove bad word from blacklist.
+    :param word:
+    """
+    __blacklist.remove(word)
+
+
+def remove_good_word(word):
     """
     Remove word from list. `list_type` must be one of blacklist and whitelist
-    :param list_type:
     :param word:
-    :return:
     """
-    list_obj = blacklist
-    if list_type == 'whitelist':
-        list_obj = whitelist
-    elif list_type != 'blacklist':
-        raise Exception("list_type expected blacklist or whitelist, but {} found".format(list_type))
-    list_obj.remove(word)
+    __whitelist.remove(word)
 
 
-def clear(list_type, word):
+def clear_blacklist():
     """
-    Clear list. `list_type` must be one of blacklist and whitelist
-    :param list_type:
-    :param word:
-    :return:
+    Clears blacklist words
     """
-    list_obj = blacklist
-    if list_type == 'whitelist':
-        list_obj = whitelist
-    elif list_type != 'blacklist':
-        raise Exception("list_type expected blacklist or whitelist, but {} found".format(list_type))
-    list_obj.clear()
+    __blacklist.clear()
+
+
+def clear_whitelist():
+    """
+    Clears whitelist words
+    """
+    __whitelist.clear()
