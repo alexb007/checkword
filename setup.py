@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="checkword",
-    version="0.0.3",
+    version="0.0.2",
     author="Bakhrom Rakhmonov",
     author_email="alex960126@gmail.com",
     description="Package for checking text for existance of blacklisted or whitelisted words",
